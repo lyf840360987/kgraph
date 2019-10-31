@@ -45,7 +45,7 @@ public class ToJson {
 		return obj;
 	}
 	public static void giveNodeInfo(String query) throws IOException {
-		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", ""));
+		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", "zhaoyuan112"));
 		BufferedReader reader = new BufferedReader(new FileReader("F:\\neo4j-community-3.5.12\\import\\ownthink_v2.csv"));
 		String line = null;
 		//Scanner sc = new Scanner(System.in);
@@ -81,7 +81,7 @@ public class ToJson {
 	}
 
 	public static void getNodeInfo(String query) {
-		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", ""));
+		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", "zhaoyuan112"));
 		Session session = driver.session();
 		try (Transaction tx = session.beginTransaction()) {
 			// StatementResult result =
@@ -115,7 +115,7 @@ public class ToJson {
 
 	public static JSONArray getPathsInfo(String query) {
 		Driver driver = GraphDatabase.driver("bolt://localhost:7687",
-				AuthTokens.basic("neo4j", ""));
+				AuthTokens.basic("neo4j", "zhaoyuan112"));
 		 //关系的StringBuffer,json格式
         StringBuffer relationBuffer = new StringBuffer("");
         StringBuffer nodeBuffer = new StringBuffer("");
@@ -209,7 +209,7 @@ public class ToJson {
 	}
 	public static JSONArray getRelationNodeInfo(String query) {
 		Driver driver = GraphDatabase.driver("bolt://localhost:7687",
-				AuthTokens.basic("neo4j", ""));
+				AuthTokens.basic("neo4j", "zhaoyuan112"));
 		 //关系的StringBuffer,json格式
 		Set nodeSet = new HashSet();
         StringBuffer nodesBuffer = new StringBuffer("");
