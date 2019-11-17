@@ -45,7 +45,7 @@ public class ToJson {
 		return obj;
 	}
 	public static void giveNodeInfo(String query) throws IOException {
-		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", ""));
+		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", "l840360987"));
 		BufferedReader reader = new BufferedReader(new FileReader("F:\\neo4j-community-3.5.12\\import\\ownthink_v2.csv"));
 		String line = null;
 		//Scanner sc = new Scanner(System.in);
@@ -81,7 +81,7 @@ public class ToJson {
 	}
 
 	public static void getNodeInfo(String query) {
-		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", ""));
+		Driver driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic("neo4j", "l840360987"));
 		Session session = driver.session();
 		try (Transaction tx = session.beginTransaction()) {
 			// StatementResult result =
@@ -115,7 +115,7 @@ public class ToJson {
 
 	public static JSONArray getPathsInfo(String query) {
 		Driver driver = GraphDatabase.driver("bolt://localhost:7687",
-				AuthTokens.basic("neo4j", ""));
+				AuthTokens.basic("neo4j", "l840360987"));
 		 //关系的StringBuffer,json格式
         StringBuffer relationBuffer = new StringBuffer("");
         StringBuffer nodeBuffer = new StringBuffer("");
@@ -161,14 +161,15 @@ public class ToJson {
 						String relType = relationship.type();
 						relationBuffer.append("{");
                         relationBuffer.append("\"source\":");
-                        relationBuffer.append(startNodeId);
+                        relationBuffer.append("\""+startNodeId+"\"");
                         //relationBuffer.append("\""+name[0]+"\"");
                         relationBuffer.append(",");
                         relationBuffer.append("\"target\":");
-                        relationBuffer.append(endNodeId);
+                        relationBuffer.append("\""+endNodeId+"\"");
                         //relationBuffer.append("\""+name[1]+"\"");
                         relationBuffer.append(",");
-                        relationBuffer.append("\"type\":");
+                       // relationBuffer.append("\"value\":5,");
+                        relationBuffer.append("\"label\":");
                         relationBuffer.append("\""+relType+"\"");
                         /*
 						System.out.println("关系" + count + "： ");
@@ -209,7 +210,7 @@ public class ToJson {
 	}
 	public static JSONArray getRelationNodeInfo(String query) {
 		Driver driver = GraphDatabase.driver("bolt://localhost:7687",
-				AuthTokens.basic("neo4j", ""));
+				AuthTokens.basic("neo4j", "l840360987"));
 		 //关系的StringBuffer,json格式
 		Set nodeSet = new HashSet();
         StringBuffer nodesBuffer = new StringBuffer("");
@@ -232,9 +233,11 @@ public class ToJson {
 						nodeSet.add(node.id());
 						Iterator<String> nodeKeys = node.keys().iterator();
                         nodesBuffer.append("{");
-						while (nodeKeys.hasNext()) {
+                       
+                        while (nodeKeys.hasNext()) {
 							String nodeKey = nodeKeys.next();
-							nodesBuffer.append("\""+nodeKey+"\":");
+							//nodesBuffer.append("\""+nodeKey+"\":");
+							nodesBuffer.append("\"label\":");
 							String content = node.get(nodeKey).asObject().toString();
                             //去除制表符
                             content = content.replaceAll("\t","");
@@ -246,13 +249,17 @@ public class ToJson {
                             content = content.replaceAll("\"","'");
                             nodesBuffer.append("\""+content+"\",");
 						}
-						nodesBuffer.append("\"id\":");
+						//nodesBuffer.append("\"id\":");
+                        nodesBuffer.append("\"id\":");
                         nodesBuffer.append(node.id());
+                        nodesBuffer.append(",");
+                        nodesBuffer.append("\"name\":");
+                        nodesBuffer.append("\""+node.id()+"\"");
                         Iterator<String> nodeTypes = node.labels().iterator();
                         //得到节点类型了！
                         String nodeType = nodeTypes.next();
                         nodesBuffer.append(",");
-                        nodesBuffer.append("\"type\":");
+                        nodesBuffer.append("\"category\":");
                         nodesBuffer.append("\""+nodeType+"\"");
                         if(!nodes.hasNext()&&!result.hasNext()){
                             nodesBuffer.append("}");
